@@ -1,0 +1,22 @@
+  <!-- ======= Header ======= -->
+  <header id="header" class="header fixed-top d-flex align-items-center">
+
+       @await Component.InvokeAsync("Dynamic", new { componentName = "HeaderLogo" })
+
+       @await Component.InvokeAsync("Dynamic", new { componentName = "HeaderSearchForm" })
+
+<!-- End Search Bar -->
+
+    <nav class="header-nav ms-auto">
+      <ul class="d-flex align-items-center">
+
+      <!-- End Search Icon-->
+       @await Component.InvokeAsync("Dynamic", new { componentName = "HeaderSearch" })
+       @await Component.InvokeAsync("Dynamic", new { componentName = "HeaderNotification" })
+       @await Component.InvokeAsync("Dynamic", new { componentName = "HeaderMessage" })
+       @await Component.InvokeAsync("Dynamic", new { componentName = "HeaderProfile" })
+      </ul>
+    </nav><!-- End Icons Navigation -->
+
+  </header><!-- End Header -->
+

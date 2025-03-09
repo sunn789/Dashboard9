@@ -24,9 +24,17 @@ public class DynamicViewComponent : ViewComponent
             // Return a view without data
             return View($"~/Areas/Admin/Pages/Shared/Components/{componentName}/Default.cshtml");
         }
+ // First resolve the repository
+    var repository = _serviceProvider.GetService(repositoryType);
+        // Handle special case for visitor reports
+      if (repositoryType == typeof(IVisitorRepository))
+    {
+        var visitorRepo = (IVisitorRepository)repository;
+        var data = await GetVisitorReportData(componentName, visitorRepo);
+        return View($"~/Areas/Admin/Pages/Shared/Components/{componentName}/Default.cshtml", data);
 
-        // Resolve the repository dynamically
-        var repository = _serviceProvider.GetService(repositoryType);
+    }
+
 
         // Use the generic repository to fetch data
         if (repository is IGenericRepository<object> repo)
@@ -57,6 +65,8 @@ public class DynamicViewComponent : ViewComponent
                 return typeof(IGenericRepository<SiteContent>);
             case "contactus":
                 return typeof(IGenericRepository<ContactUsModel>);
+            case "visitor":
+                return typeof(IVisitorRepository);
             case "header":
                 return null;  // No repository needed for this component
             case "sidebar":
@@ -66,5 +76,17 @@ public class DynamicViewComponent : ViewComponent
             default:
                 return null;  // Default to no repository needed
         }
+    }
+    private async Task<object> GetVisitorReportData(string componentName, IVisitorRepository repo)
+    {
+        return componentName.ToLower() switch
+        {
+            "visitortrend" => await repo.GetHourlyVisitorsAsync(),
+            "devicedistribution" => await repo.GetDeviceDistributionAsync(),
+            "browserstats" => await repo.GetBrowserDistributionAsync(),
+            "countrymap" => await repo.GetCountryDistributionAsync(),
+            "analyticsoverview" => await repo.GetVisitorAnalyticsAsync(),
+            _ => null
+        };
     }
 }

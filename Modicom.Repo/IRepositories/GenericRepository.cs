@@ -1,45 +1,41 @@
-
+using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using Modicom.Models;
 using Modicom.Repo.Contracts;
 
-namespace Modicom.Repo.IRepositories;
 public class GenericRepository<T> : IGenericRepository<T> where T : class
 {
-    private readonly ApplicationDbContext _context;
-    private readonly DbSet<T> _dbSet;
-
+    protected readonly ApplicationDbContext _context;
+    
     public GenericRepository(ApplicationDbContext context)
     {
         _context = context;
-        _dbSet = context.Set<T>();
     }
 
-    public async Task<T> GetAsync(int id)
-    {
-        return await _dbSet.FindAsync(id);
-    }
-
-    public async Task<IEnumerable<T>> GetAllAsync()
-    {
-        return await _dbSet.ToListAsync();
-    }
-
-    public async Task AddAsync(T entity)
-    {
-        await _dbSet.AddAsync(entity);
-        await _context.SaveChangesAsync();
-    }
-
+    public async Task<T> GetAsync(int id) => await _context.Set<T>().FindAsync(id);
+    
+    public async Task<IEnumerable<T>> GetAllAsync() => await _context.Set<T>().ToListAsync();
+    
+    public async Task AddAsync(T entity) => await _context.Set<T>().AddAsync(entity);
+    
     public async Task UpdateAsync(T entity)
     {
-        _dbSet.Update(entity);
-        await _context.SaveChangesAsync();
+        _context.Entry(entity).State = EntityState.Modified;
+        await Task.CompletedTask;
     }
-
+    
     public async Task DeleteAsync(T entity)
     {
-        _dbSet.Remove(entity);
-        await _context.SaveChangesAsync();
+        _context.Set<T>().Remove(entity);
+        await Task.CompletedTask;
     }
+    
+    public async Task<int> GetCountAsync(Expression<Func<T, bool>> filter = null)
+    {
+        return filter != null 
+            ? await _context.Set<T>().CountAsync(filter)
+            : await _context.Set<T>().CountAsync();
+    }
+    
+    public IQueryable<T> GetQueryable() => _context.Set<T>().AsQueryable();
 }

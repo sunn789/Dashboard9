@@ -4,7 +4,7 @@ using Modicom.Models;
 using Modicom.Raz.Areas.Admin.ViewComponents;
 
 using Modicom.Repo.Contracts;
-using Modicom.Repo.IRepositories;
+
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("ApplicationDbContextConnection") ?? throw new InvalidOperationException("Connection string 'ApplicationDbContextConnection' not found."); ;
 
@@ -15,9 +15,12 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 // Add services to the container.
 
 
-    builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-    // Register other services, including the ViewComponent
-    builder.Services.AddScoped<DynamicViewComponent>();
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+builder.Services.AddScoped<IVisitorRepository, VisitorRepository>();
+
+
+// Register other services, including the ViewComponent
+builder.Services.AddScoped<DynamicViewComponent>();
 builder.Services.AddRazorPages();
 
 var app = builder.Build();
@@ -29,7 +32,7 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-app.UseMiddleware<Modicom.Business.Middleware.VisitorTrackingMiddleware>();
+
 app.UseHttpsRedirection();
 
 app.UseRouting();
@@ -37,6 +40,11 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapStaticAssets();
+
+app.UseSession();
+app.UseMiddleware<VisitorTrackingMiddleware>();
+
+
 app.MapRazorPages()
    .WithStaticAssets();
 

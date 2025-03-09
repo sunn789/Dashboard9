@@ -18,7 +18,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Modicom.Repo\Modicom.Repo.csproj" /> 
-    <ProjectReference Include="..\Modicom.Models\Modicom.Models.csproj" />
+
     <ProjectReference Include="..\Modicom.Services\Modicom.Services.csproj" />
   </ItemGroup>
   

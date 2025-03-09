@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Modicom.Repo", "Modicom.Rep
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Modicom.Services", "Modicom.Services\Modicom.Services.csproj", "{36EAC5FA-1BAB-4EDB-BC70-176DA4BC550B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Modicom.Business", "Modicom.Business\Modicom.Business.csproj", "{426F7D78-3B93-4288-8D8A-C8DF657AA7BB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +38,9 @@ Global
 		{36EAC5FA-1BAB-4EDB-BC70-176DA4BC550B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{36EAC5FA-1BAB-4EDB-BC70-176DA4BC550B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{36EAC5FA-1BAB-4EDB-BC70-176DA4BC550B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{426F7D78-3B93-4288-8D8A-C8DF657AA7BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{426F7D78-3B93-4288-8D8A-C8DF657AA7BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{426F7D78-3B93-4288-8D8A-C8DF657AA7BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{426F7D78-3B93-4288-8D8A-C8DF657AA7BB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

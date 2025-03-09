@@ -4,7 +4,7 @@
 
 MIT License
 
-Copyright (c) [year] [fullname]
+Copyright (c) [2025] [Mahan]
 
 Permission is hereby granted... [Standard MIT License Text]
 

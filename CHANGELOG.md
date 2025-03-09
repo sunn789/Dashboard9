@@ -2,7 +2,7 @@
 
 # Changelog
 
-## [1.0.0] - 2023-08-20
+## [1.0.0] - 2025-08-03
 ### Added
 - Initial dashboard implementation
 - User authentication module

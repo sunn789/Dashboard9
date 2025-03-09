@@ -3,7 +3,7 @@
 # Security Policy
 
 ## Reporting Vulnerabilities
-Email security issues to: [your-email@domain.com]
+Email security issues to: [modicom.ir@gmail.com]
 
 ## Security Updates
 Critical vulnerabilities will be patched within 72 hours

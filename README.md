@@ -2,12 +2,12 @@
 
 # Sadmin Dashboard - .NET Core Implementation
 
-[![.NET Core](https://img.shields.io/badge/.NET-6.0-purple)](https://dotnet.microsoft.com/)
+[![.NET Core](https://img.shields.io/badge/.NET-9.0-purple)](https://dotnet.microsoft.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ![Dashboard Screenshot](Modicom.Raz/wwwroot/images/DashboardScreenshot.png)
 
-A modern admin dashboard implemented in .NET Core 6, based on NiceAdmin template.
+A modern admin dashboard implemented in .NET Core 9, based on NiceAdmin template abd bootstrap 5.3.3.
 
 ## Features
 - User management system

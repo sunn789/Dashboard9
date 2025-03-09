@@ -5,7 +5,7 @@
 [![.NET Core](https://img.shields.io/badge/.NET-6.0-purple)](https://dotnet.microsoft.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-![Dashboard Screenshot](/wwwroot/images/screenshot.png)
+![Dashboard Screenshot](Modicom.Raz/wwwroot/images/DashboardScreenshot.png)
 
 A modern admin dashboard implemented in .NET Core 6, based on NiceAdmin template.
 

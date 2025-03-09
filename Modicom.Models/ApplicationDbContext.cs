@@ -44,9 +44,14 @@ public class ApplicationDbContext(DbContextOptions options) : IdentityDbContext<
         {
             relationship.DeleteBehavior = DeleteBehavior.Restrict;
         }
+        builder.Entity<DailyVisitorCount>()
+            .HasIndex(d => d.Date)
+            .IsUnique();
     }
     public DbSet<SiteContent> SiteContents { get; set; }
     public DbSet<ContactUsModel> ContactUsModels { get; set; }
+    public DbSet<Visitor> Visitors { get; set; }
+    public DbSet<DailyVisitorCount> DailyVisitorCounts { get; set; }
 
 }
 

@@ -8,4 +8,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Modicom.Models\Modicom.Models.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="UAParser.Core" Version="4.0.4" />
+  </ItemGroup>
 </Project>

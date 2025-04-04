@@ -1,51 +1,72 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Modicom.Models;
 using Modicom.Raz.Areas.Admin.ViewComponents;
-
 using Modicom.Repo.Contracts;
+using Modicom.Services.Configuration;
+using Modicom.Services.Services;
 
 var builder = WebApplication.CreateBuilder(args);
-var connectionString = builder.Configuration.GetConnectionString("ApplicationDbContextConnection") ?? throw new InvalidOperationException("Connection string 'ApplicationDbContextConnection' not found."); ;
 
-builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
+// 1. پیکربندی دیتابیس
+var connectionString = builder.Configuration.GetConnectionString("ApplicationDbContextConnection") 
+    ?? throw new InvalidOperationException("Connection string not found.");
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddDbContext<ApplicationDbContext>(options => 
+    options.UseNpgsql(connectionString));
 
-// Add services to the container.
+// 2. تنظیمات Identity
+builder.Services.AddDefaultIdentity<IdentityUser>(options => {
+    options.SignIn.RequireConfirmedAccount = true;
+}).AddEntityFrameworkStores<ApplicationDbContext>();
 
+// 3. ثبت سرویس‌های پیکربندی
+builder.Services
+    .Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"))
+    .Configure<GeoIPSettings>(builder.Configuration.GetSection("GeoIP"))
+    .Configure<TrackingExclusions>(builder.Configuration.GetSection("TrackingExclusions"));
 
-builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-builder.Services.AddScoped<IVisitorRepository, VisitorRepository>();
+// 4. سرویس‌های برنامه
+builder.Services.AddHttpClient<GeoService>((sp, client) => {
+    var geoConfig = sp.GetRequiredService<IOptions<GeoIPSettings>>().Value;
+    client.BaseAddress = new Uri(geoConfig.ServiceUrl!);
+});
 
+builder.Services.AddSession(options => {
+    options.IdleTimeout = TimeSpan.FromMinutes(20);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+})
+    .AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>))
+    .AddScoped<IVisitorRepository, VisitorRepository>()
+    .AddScoped<VisitService>()
+    .AddScoped<DynamicViewComponent>()
+    .AddRazorPages();
 
-// Register other services, including the ViewComponent
-builder.Services.AddScoped<DynamicViewComponent>();
-builder.Services.AddRazorPages();
+// 5. پیکربندی Redis
+builder.Services.AddStackExchangeRedisCache(options => {
+    options.Configuration = builder.Configuration.GetConnectionString("Redis"); 
+    options.InstanceName = "VisitorTracker_";
+});
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// 6. میدلورها و خط‌مشی امنیتی
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
 app.UseHttpsRedirection();
-
+app.UseStaticFiles();
 app.UseRouting();
-
-app.UseAuthorization();
-
+app.UseAuthentication();
+app.UseAuthorization(); 
 app.MapStaticAssets();
-
 app.UseSession();
 app.UseMiddleware<VisitorTrackingMiddleware>();
-
-
-app.MapRazorPages()
-   .WithStaticAssets();
+app.MapRazorPages().WithStaticAssets();
 
 app.Run();

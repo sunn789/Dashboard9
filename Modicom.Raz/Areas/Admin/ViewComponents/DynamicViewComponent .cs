@@ -24,38 +24,47 @@ public class DynamicViewComponent : ViewComponent
             // Return a view without data
             return View($"~/Areas/Admin/Pages/Shared/Components/{componentName}/Default.cshtml");
         }
- // First resolve the repository
-    var repository = _serviceProvider.GetService(repositoryType);
-        // Handle special case for visitor reports
-      if (repositoryType == typeof(IVisitorRepository))
-    {
-        var visitorRepo = (IVisitorRepository)repository;
-        var data = await GetVisitorReportData(componentName, visitorRepo);
-        return View($"~/Areas/Admin/Pages/Shared/Components/{componentName}/Default.cshtml", data);
-
-    }
-
-
-        // Use the generic repository to fetch data
-        if (repository is IGenericRepository<object> repo)
+        var repoType = componentName.ToLower() switch
         {
-            // Use reflection to call GetAllAsync()
-            var method = repositoryType.GetMethod("GetAllAsync");
-            if (method == null) return View("Error");
+            "visitoroverview" => typeof(IVisitorRepository),
+            "devicedistribution" => typeof(IVisitorRepository),
+            "browserstats" => typeof(IVisitorRepository),
+            "countrymap" => typeof(IVisitorRepository),
+            "visitortrend" => typeof(IVisitorRepository),
+            _ => null
+        };
 
-            var task = (Task)method.Invoke(repository, null);
-            await task.ConfigureAwait(false);
+        // First resolve the repository
+        var repository = _serviceProvider.GetService(repositoryType);
 
-            // Get the result (e.g., List<SiteContent>)
-            var resultProperty = task.GetType().GetProperty("Result");
-            var data = resultProperty?.GetValue(task);
+        if (repoType != null)
+        {
+            var repo1 = _serviceProvider.GetService(repoType) as IVisitorRepository;
 
-            // Return the view with the fetched data
-            return View($"~/Areas/Admin/Pages/Shared/Components/{componentName}/Default.cshtml", data);
+
+            return View($"~/Areas/Admin/Pages/Shared/Components/{componentName}/Default.cshtml", repoType);
+
         }
+            // Use the generic repository to fetch data
+            if (repository is IGenericRepository<object> repo)
+            {
+                // Use reflection to call GetAllAsync()
+                var method = repositoryType.GetMethod("GetAllAsync");
+                if (method == null) return View("Error");
 
-        return View("Error");
-    }
+                var task = (Task)method.Invoke(repository, null);
+                await task.ConfigureAwait(false);
+
+                // Get the result (e.g., List<SiteContent>)
+                var resultProperty = task.GetType().GetProperty("Result");
+                var data = resultProperty?.GetValue(task);
+
+                // Return the view with the fetched data
+                return View($"~/Areas/Admin/Pages/Shared/Components/{componentName}/Default.cshtml", data);
+            }
+
+            return View("Error");
+        }
 
     private Type GetRepositoryType(string componentName)
     {

@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using Microsoft.EntityFrameworkCore;
 using Modicom.Models;
 using Modicom.Models.Entities;
@@ -7,19 +8,29 @@ public class VisitorRepository : GenericRepository<Visitor>, IVisitorRepository
 {
     public VisitorRepository(ApplicationDbContext context) : base(context) { }
 
-    public async Task<VisitorAnalytics> GetVisitorAnalyticsAsync(DateTime? startDate = null, DateTime? endDate = null)
+    public async Task<VisitorAnalytics> GetVisitorAnalyticsAsync(DateTime? start = null, DateTime? end = null)
     {
-        var query = BuildDateRangeQuery(startDate, endDate);
+        var query = BuildDateRangeQuery(start, end);
         
         return new VisitorAnalytics
         {
             TotalVisitors = await query.CountAsync(),
             UniqueVisitors = await query.Select(v => v.IpAddress).Distinct().CountAsync(),
-            AverageTimeSpent = await query.AverageAsync(v => v.TimeSpent.TotalSeconds),
+            AvgTimeSpent = await query.AverageAsync(v => v.TimeSpent.TotalMinutes),
             MobileVisitors = await query.CountAsync(v => v.IsMobile),
             DesktopVisitors = await query.CountAsync(v => !v.IsMobile),
-            BotVisits = await query.CountAsync(v => v.IsBot)
+            BotVisits = await query.CountAsync(v => v.IsBot),
+            TopPages = await GetTopPages(query)
         };
+    }
+
+    private async Task<Dictionary<string, int>> GetTopPages(IQueryable<Visitor> query)
+    {
+        return await query
+            .GroupBy(v => v.PageUrl)
+            .OrderByDescending(g => g.Count())
+            .Take(5)
+            .ToDictionaryAsync(g => g.Key ?? "/", g => g.Count());
     }
 
     public async Task<List<Visitor>> GetRecentVisitorsAsync(int count = 10)
@@ -38,13 +49,21 @@ public class VisitorRepository : GenericRepository<Visitor>, IVisitorRepository
             .ToDictionaryAsync(x => x.Device ?? "Unknown", x => x.Count);
     }
 
-    public async Task<Dictionary<string, int>> GetBrowserDistributionAsync()
-    {
-        return await GetQueryable()
-            .GroupBy(v => v.Browser)
-            .Select(g => new { Browser = g.Key, Count = g.Count() })
-            .ToDictionaryAsync(x => x.Browser ?? "Unknown", x => x.Count);
-    }
+public async Task<Dictionary<string, int>> GetBrowserDistributionAsync()
+{
+    var allVisitors = await GetQueryable().ToListAsync();
+    
+    return allVisitors
+        .GroupBy(v => GetBrowserFromUserAgent(v.UserAgent))
+        .ToDictionary(g => g.Key, g => g.Count());
+}
+
+private string GetBrowserFromUserAgent(string userAgent)
+{
+    // پیاده‌سازی دستی با Regex
+    var match = Regex.Match(userAgent, @"(Chrome|Firefox|Safari|Edge|Opera)");
+    return match.Success ? match.Groups[1].Value : "Unknown";
+}
 
     public async Task<Dictionary<string, int>> GetCountryDistributionAsync()
     {

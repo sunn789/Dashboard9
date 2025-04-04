@@ -1,28 +1,50 @@
-// Modicom.Raz/Middleware/VisitorTrackingMiddleware.cs
+using Microsoft.Extensions.Options;
+using Modicom.Services.Configuration;
+
 public class VisitorTrackingMiddleware
 {
     private readonly RequestDelegate _next;
+    private readonly ILogger<VisitorTrackingMiddleware> _logger;
+    private readonly TrackingExclusions _exclusions;
 
-    public VisitorTrackingMiddleware(RequestDelegate next)
+    public VisitorTrackingMiddleware(
+        RequestDelegate next,
+        ILogger<VisitorTrackingMiddleware> logger,
+        IOptions<TrackingExclusions> exclusions)
     {
         _next = next;
+        _logger = logger;
+        _exclusions = exclusions.Value;
     }
 
-    public async Task InvokeAsync(HttpContext context, IVisitorService visitorService)
+    public async Task InvokeAsync(HttpContext context)
     {
-        if (!context.Request.Path.StartsWithSegments("/api") &&
-            !context.Request.Path.StartsWithSegments("/admin"))
+        try
         {
-            await visitorService.TrackVisitor(context);
-        }
-        
-        if (context.Session.GetString("LastRequest") != null)
-        {
-            var lastRequest = DateTime.Parse(context.Session.GetString("LastRequest"));
-            if ((DateTime.UtcNow - lastRequest).TotalSeconds < 5) return;
-        }
-        context.Session.SetString("LastRequest", DateTime.UtcNow.ToString());
+            if (ShouldTrack(context))
+            {
+                // دریافت سرویس از طریق RequestServices
+                var visitService = context.RequestServices.GetRequiredService<VisitService>();
+                
+                context.Response.OnStarting(async () => 
+                {
+                     visitService.ProcessVisit(context);
+                });
+            }
 
-        await _next(context);
+            await _next(context);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "خطا در ردیابی بازدید");
+            throw;
+        }
+    }
+
+    private bool ShouldTrack(HttpContext context)
+    {
+        var path = context.Request.Path.Value ?? "";
+        return !_exclusions.Paths!.Contains(path) &&
+               !_exclusions.Prefixes!.Any(p => path.StartsWith(p));
     }
 }

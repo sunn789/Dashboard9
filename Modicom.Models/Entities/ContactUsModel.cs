@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 namespace Modicom.Models.Entities;
 
-public class ContactUsModel
+public class ContactUs
 {
     public int Id { get; set; }
     [Required]

@@ -1,0 +1,82 @@
+﻿@page
+@model Ins.Raz.Pages.ThankYouModel
+@{
+}
+<!-- Hero Section -->
+<section class="hero bg-primary text-white text-center py-5">
+    <div class="container">
+        <div class="animate__animated animate__fadeInDown">
+            <i class="fas fa-check-circle fa-4x mb-4"></i>
+            <h1 class="display-4">Thank You for Contacting Us!</h1>
+            <p class="lead">We've received your message and will respond shortly</p>
+        </div>
+    </div>
+</section>
+
+<!-- Confirmation Section -->
+<section class="py-5">
+    <div class="container text-center">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card shadow-lg border-0 animate__animated animate__fadeInUp">
+                    <div class="card-body p-5">
+                        <h2 class="mb-4">📬 Your Message is On Its Way!</h2>
+                        <p class="lead text-muted mb-4">
+                            A confirmation email has been sent to <strong>@Model.ContactForm.Email</strong>.
+                            We typically respond within 24 hours.
+                        </p>
+
+                        <div class="thankyou-details bg-light p-4 rounded mb-4">
+                            <h4 class="mb-3">Here's What We Received:</h4>
+                            <ul class="list-unstyled text-start">
+                                <li class="mb-2"><strong>Name:</strong> @Model.ContactForm.FirstName @Model.ContactForm.LastName</li>
+                                <li class="mb-2"><strong>Phone:</strong> @Model.ContactForm.Phone</li>
+                                <li class="mb-2"><strong>Interest:</strong> @Model.ContactForm.Interest</li>
+                                <li class="mb-2"><strong>Preferred Contact:</strong> @Model.ContactForm.PreferredContactMethod</li>
+                            </ul>
+                        </div>
+
+                        <div class="mt-4">
+                            <p class="text-muted">
+                                Need immediate assistance?<br>
+                                Call us at <strong>806-206-7327</strong>
+                            </p>
+                            <a href="/" class="btn btn-primary btn-lg mt-3">
+                                <i class="fas fa-home me-2"></i>Return to Homepage
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .hero {
+        background: linear-gradient(135deg, #0069d9, #0056b3);
+    }
+
+    .thankyou-details {
+        background: #f8f9fa;
+        border-left: 4px solid #0069d9;
+    }
+
+    .card {
+        transition: transform 0.3s;
+        border-radius: 15px;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+    }
+
+    .animate__animated {
+        animation-duration: 1s;
+    }
+</style>
+
+@if (Model.ShowAnimation)
+{
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+}

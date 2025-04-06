@@ -35,8 +35,6 @@ public class ContactUs
     [Display(Name = "Zip / Postal Code")]
     public string? ZipCode { get; set; }
 
-
-
     [Display(Name = "Preferred Method of Contact")]
     public PreferredContactMethod? PreferredContactMethod { get; set; } // Nullable if not required
 
@@ -47,7 +45,6 @@ public class ContactUs
     [Display(Name = "Consent to be contacted")]
     public bool Consent { get; set; }
 
-    // Additional backend properties
     [Display(Name = "User IP Address")]
     public string? UserIp { get; set; }
 

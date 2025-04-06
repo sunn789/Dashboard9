@@ -52,7 +52,7 @@ public class ApplicationDbContext(DbContextOptions options) : IdentityDbContext<
 
     }
     public DbSet<SiteContent> SiteContents { get; set; }
-    public DbSet<ContactUsModel> ContactUsModels { get; set; }
+    public DbSet<ContactUs> ContactUs { get; set; }
     // public DbSet<DailyVisitors> DailyVisitors { get; set; }
     public DbSet<Visitor> Visitors { get; set; }
 

@@ -1,9 +1,9 @@
 using System.Linq.Expressions;
 
-namespace Modicom.Repo.Contracts;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Modicom.Models.Entities;
+namespace Modicom.Repo.Contracts;
 
 public interface ISiteContentRepository
 {

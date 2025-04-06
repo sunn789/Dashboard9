@@ -1,4 +1,4 @@
-using Ins.Repo.Contrcts;
+using Modicom.Repo.Contracts;
 
 using Microsoft.AspNetCore.Mvc;
 

@@ -1,4 +1,4 @@
-using Ins.Repo.Contrcts;
+using Modicom.Repo.Contracts;
 using Microsoft.AspNetCore.Mvc;
 
 public class FooterViewComponent:ViewComponent
@@ -13,7 +13,7 @@ public class FooterViewComponent:ViewComponent
 
     public async Task<IViewComponentResult> InvokeAsync()
      {
-       var item =await  _siteContentRepository1.GetStaticById(1);
+       var item =await  _siteContentRepository1.GetByIdAsync(1);
         return View(item);
      }
 }

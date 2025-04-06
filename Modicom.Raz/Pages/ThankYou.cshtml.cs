@@ -1,6 +1,7 @@
-using Ins.Models;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Modicom.Models.Entities;
 
 namespace Ins.Raz.Pages
 {
@@ -8,7 +9,7 @@ namespace Ins.Raz.Pages
     {
 
         [BindProperty(SupportsGet = true)]
-        public ContactUsModel? ContactForm { get; set; }
+        public ContactUs? ContactForm { get; set; }
 
         [BindProperty(SupportsGet = true)]
         public bool ShowAnimation { get; set; } = true;

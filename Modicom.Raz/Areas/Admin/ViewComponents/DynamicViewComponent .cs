@@ -73,7 +73,7 @@ public class DynamicViewComponent : ViewComponent
             case "sitecontent":
                 return typeof(IGenericRepository<SiteContent>);
             case "contactus":
-                return typeof(IGenericRepository<ContactUsModel>);
+                return typeof(IGenericRepository<ContactUs>);
             case "visitor":
                 return typeof(IVisitorRepository);
             case "header":

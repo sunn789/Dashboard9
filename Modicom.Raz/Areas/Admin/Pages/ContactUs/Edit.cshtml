@@ -1,0 +1,120 @@
+@page
+@model Modicom.Raz.Areas_Admin_Pages_ContactUs.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>ContactUs</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ContactUs.Id" />
+            <div class="form-group">
+                <span class="text-danger">*</span>
+                <label asp-for="ContactUs.FirstName" class="control-label"></label>
+                <input asp-for="ContactUs.FirstName" class="form-control" />
+                <span asp-validation-for="ContactUs.FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <span class="text-danger">*</span>
+                <label asp-for="ContactUs.LastName" class="control-label"></label>
+                <input asp-for="ContactUs.LastName" class="form-control" />
+                <span asp-validation-for="ContactUs.LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <span class="text-danger">*</span>
+                <label asp-for="ContactUs.Phone" class="control-label"></label>
+                <input asp-for="ContactUs.Phone" class="form-control" />
+                <span asp-validation-for="ContactUs.Phone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <span class="text-danger">*</span>
+                <label asp-for="ContactUs.Email" class="control-label"></label>
+                <input asp-for="ContactUs.Email" class="form-control" />
+                <span asp-validation-for="ContactUs.Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                
+                <label asp-for="ContactUs.Address" class="control-label"></label>
+                <input asp-for="ContactUs.Address" class="form-control" />
+                <span asp-validation-for="ContactUs.Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                
+                <label asp-for="ContactUs.City" class="control-label"></label>
+                <input asp-for="ContactUs.City" class="form-control" />
+                <span asp-validation-for="ContactUs.City" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                
+                <label asp-for="ContactUs.State" class="control-label"></label>
+                <input asp-for="ContactUs.State" class="form-control" />
+                <span asp-validation-for="ContactUs.State" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                
+                <label asp-for="ContactUs.ZipCode" class="control-label"></label>
+                <input asp-for="ContactUs.ZipCode" class="form-control" />
+                <span asp-validation-for="ContactUs.ZipCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                
+                <label asp-for="ContactUs.PreferredContactMethod" class="control-label"></label>
+                <input asp-for="ContactUs.PreferredContactMethod" class="form-control" />
+                <span asp-validation-for="ContactUs.PreferredContactMethod" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                
+                <label asp-for="ContactUs.Subject" class="control-label"></label>
+                <input asp-for="ContactUs.Subject" class="form-control" />
+                <span asp-validation-for="ContactUs.Subject" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                
+                <label asp-for="ContactUs.Message" class="control-label"></label>
+                <input asp-for="ContactUs.Message" class="form-control" />
+                <span asp-validation-for="ContactUs.Message" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <span class="text-danger">*</span>
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="ContactUs.Consent" /> @Html.DisplayNameFor(model => model.ContactUs.Consent)
+                </label>
+            </div>
+            <div class="form-group">
+                
+                <label asp-for="ContactUs.UserIp" class="control-label"></label>
+                <input asp-for="ContactUs.UserIp" class="form-control" />
+                <span asp-validation-for="ContactUs.UserIp" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                
+                <label asp-for="ContactUs.InsertDate" class="control-label"></label>
+                <input asp-for="ContactUs.InsertDate" class="form-control" />
+                <span asp-validation-for="ContactUs.InsertDate" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="ContactUs.ReadIt" /> @Html.DisplayNameFor(model => model.ContactUs.ReadIt)
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

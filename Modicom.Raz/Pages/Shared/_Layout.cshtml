@@ -21,16 +21,18 @@
 </head>
 
 <body>
+    @await Component.InvokeAsync("Nav")
+    <main role="main" class="pb-3">
+        @RenderBody()
+    </main>
 
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-
+    @await Component.InvokeAsync("Footer")
+    @* 
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2025 - Modicom - <a asp-area="" asp-page="/Privacy">Privacy</a>
         </div>
-    </footer>
+    </footer> *@
 
 
     <!-- Scroll Top -->

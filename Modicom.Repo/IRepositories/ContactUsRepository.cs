@@ -6,9 +6,9 @@ using Modicom.Repo.Contracts;
 
 public class ContactUsRepository : IContactUsRepository
 {
-    private readonly DbContext _context;
+    private readonly ApplicationDbContext _context;
 
-    public ContactUsRepository(DbContext context)
+    public ContactUsRepository(ApplicationDbContext context)
     {
         _context = context;
     }

@@ -6,16 +6,16 @@ using Modicom.Repo.Contracts;
 
 public class SiteContentRepository : ISiteContentRepository
 {
-    private readonly DbContext _context;
+   private readonly ApplicationDbContext _context; // Changed type
 
-    public SiteContentRepository(DbContext context)
+    public SiteContentRepository(ApplicationDbContext context) // Changed parameter type
     {
         _context = context;
     }
 
     public async Task<SiteContent> GetByIdAsync(int id)
     {
-        return await _context.Set<SiteContent>().FindAsync(id);
+        return await _context.Set<SiteContent>().FindAsync(id)!;
     }
 
     public async Task<IEnumerable<SiteContent>> GetAllAsync()

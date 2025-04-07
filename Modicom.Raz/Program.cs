@@ -40,6 +40,7 @@ builder.Services.AddSession(options => {
 })
     .AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>))
     .AddScoped<IVisitorRepository, VisitorRepository>()
+    .AddScoped<ISiteContentRepository, SiteContentRepository>()
     .AddScoped<VisitService>()
     .AddScoped<DynamicViewComponent>()
     .AddRazorPages();

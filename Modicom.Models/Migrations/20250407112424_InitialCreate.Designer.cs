@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Modicom.Models.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250404191636_InitialCreate")]
+    [Migration("20250407112424_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -248,7 +248,7 @@ namespace Modicom.Models.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("Modicom.Models.Entities.ContactUsModel", b =>
+            modelBuilder.Entity("Modicom.Models.Entities.ContactUs", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -304,7 +304,46 @@ namespace Modicom.Models.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ContactUsModels");
+                    b.ToTable("ContactUs");
+                });
+
+            modelBuilder.Entity("Modicom.Models.Entities.Menu", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("ModifyDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("OpenInNewWindow")
+                        .HasColumnType("boolean");
+
+                    b.Property<int?>("ParentId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Priority")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("RoutePath")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ParentId");
+
+                    b.ToTable("Menus");
                 });
 
             modelBuilder.Entity("Modicom.Models.Entities.SiteContent", b =>
@@ -378,6 +417,37 @@ namespace Modicom.Models.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("SiteContentCategory");
+                });
+
+            modelBuilder.Entity("Modicom.Models.Entities.SiteSection", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("LastUpdate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<int>("Prority")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SiteSections");
                 });
 
             modelBuilder.Entity("Modicom.Models.Entities.Visitor", b =>
@@ -529,6 +599,16 @@ namespace Modicom.Models.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Modicom.Models.Entities.Menu", b =>
+                {
+                    b.HasOne("Modicom.Models.Entities.Menu", "Parent")
+                        .WithMany("SubMenus")
+                        .HasForeignKey("ParentId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Parent");
+                });
+
             modelBuilder.Entity("Modicom.Models.Entities.SiteContent", b =>
                 {
                     b.HasOne("Modicom.Models.Entities.SiteContentCategory", "SiteContentCategory")
@@ -537,6 +617,11 @@ namespace Modicom.Models.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("SiteContentCategory");
+                });
+
+            modelBuilder.Entity("Modicom.Models.Entities.Menu", b =>
+                {
+                    b.Navigation("SubMenus");
                 });
 
             modelBuilder.Entity("Modicom.Models.Entities.SiteContentCategory", b =>

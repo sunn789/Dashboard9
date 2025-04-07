@@ -17,8 +17,9 @@ public class BloggingContextFactory : IDesignTimeDbContextFactory<ApplicationDbC
 {
     public ApplicationDbContext CreateDbContext(string[] args)
     {
-       
-        var basePath = Path.Combine(
+        var basePath = Directory.GetCurrentDirectory(); // Or adjust as needed
+        Console.WriteLine($"Base path: {basePath}"); // Debugging
+         basePath = Path.Combine(
             Directory.GetCurrentDirectory(), 
             "../Modicom.Raz"  // Adjust based on actual structure
         );
@@ -27,8 +28,10 @@ public class BloggingContextFactory : IDesignTimeDbContextFactory<ApplicationDbC
             .SetBasePath(basePath)
             .AddJsonFile("appsettings.json")
             .Build();
+       // 3. Configure PostgreSQL
         var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
-        optionsBuilder.UseNpgsql(configuration.GetConnectionString("ApplicationDbContextConnection"));
+        var connectionString = configuration.GetConnectionString("ApplicationDbContextConnection");
+        optionsBuilder.UseNpgsql(connectionString); // Ensure this is PostgreSQL
 
         return new ApplicationDbContext(optionsBuilder.Options);
     }

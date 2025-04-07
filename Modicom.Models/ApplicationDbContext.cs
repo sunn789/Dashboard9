@@ -54,13 +54,9 @@ public class ApplicationDbContext(DbContextOptions options) : IdentityDbContext<
     public DbSet<ContactUs> ContactUs { get; set; }
     public DbSet<Menu> Menus { get; set; }
     public DbSet<SiteContent> SiteContents { get; set; }
-   
     public DbSet<SiteSection> SiteSections { get; set; }
-
     //after request user
     //public DbSet<Testimonials> Testimonials { get; set; }
     public DbSet<Visitor> Visitors { get; set; }
-
-
 }
 

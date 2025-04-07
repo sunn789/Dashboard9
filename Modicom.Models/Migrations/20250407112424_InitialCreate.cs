@@ -61,7 +61,7 @@ namespace Modicom.Models.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ContactUsModels",
+                name: "ContactUs",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -83,7 +83,33 @@ namespace Modicom.Models.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ContactUsModels", x => x.Id);
+                    table.PrimaryKey("PK_ContactUs", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Menus",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "text", nullable: true),
+                    Active = table.Column<bool>(type: "boolean", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    ModifyDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Priority = table.Column<int>(type: "integer", nullable: false),
+                    RoutePath = table.Column<string>(type: "text", nullable: true),
+                    OpenInNewWindow = table.Column<bool>(type: "boolean", nullable: false),
+                    ParentId = table.Column<int>(type: "integer", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Menus", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Menus_Menus_ParentId",
+                        column: x => x.ParentId,
+                        principalTable: "Menus",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -103,6 +129,24 @@ namespace Modicom.Models.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_SiteContentCategory", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SiteSections",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "text", nullable: true),
+                    Active = table.Column<bool>(type: "boolean", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    LastUpdate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Prority = table.Column<int>(type: "integer", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SiteSections", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -307,6 +351,11 @@ namespace Modicom.Models.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Menus_ParentId",
+                table: "Menus",
+                column: "ParentId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_SiteContents_SiteContentCategoryId",
                 table: "SiteContents",
                 column: "SiteContentCategoryId");
@@ -341,10 +390,16 @@ namespace Modicom.Models.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "ContactUsModels");
+                name: "ContactUs");
+
+            migrationBuilder.DropTable(
+                name: "Menus");
 
             migrationBuilder.DropTable(
                 name: "SiteContents");
+
+            migrationBuilder.DropTable(
+                name: "SiteSections");
 
             migrationBuilder.DropTable(
                 name: "Visitors");

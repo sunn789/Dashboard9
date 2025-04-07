@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 namespace Modicom.Models.Entities;
 
-[Table("Menu", Schema = "dbo")]
+
 public class Menu
 {
     public int Id { get; set; }

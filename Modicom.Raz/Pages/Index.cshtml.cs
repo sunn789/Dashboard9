@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Modicom.Models.Entities;
 
 namespace Modicom.Raz.Pages;
 
@@ -11,7 +12,7 @@ public class IndexModel : PageModel
     {
         _logger = logger;
     }
-
+    public SiteSection[]? SiteSections { get; set; }
     public void OnGet()
     {
 

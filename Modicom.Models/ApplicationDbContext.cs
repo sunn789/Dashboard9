@@ -46,14 +46,19 @@ public class ApplicationDbContext(DbContextOptions options) : IdentityDbContext<
         }
         builder.Entity<Visitor>()
         .HasIndex(v => v.VisitTime);
-    
-    builder.Entity<Visitor>()
-        .HasIndex(v => v.IpAddress);
+
+        builder.Entity<Visitor>()
+            .HasIndex(v => v.IpAddress);
 
     }
-    public DbSet<SiteContent> SiteContents { get; set; }
     public DbSet<ContactUs> ContactUs { get; set; }
-    // public DbSet<DailyVisitors> DailyVisitors { get; set; }
+    public DbSet<Menu> Menus { get; set; }
+    public DbSet<SiteContent> SiteContents { get; set; }
+   
+    public DbSet<SiteSection> SiteSections { get; set; }
+
+    //after request user
+    //public DbSet<Testimonials> Testimonials { get; set; }
     public DbSet<Visitor> Visitors { get; set; }
 
 

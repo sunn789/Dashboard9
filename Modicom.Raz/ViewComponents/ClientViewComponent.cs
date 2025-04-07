@@ -15,7 +15,7 @@ public class ClientViewComponent: ViewComponent
 
     public async Task<IViewComponentResult> InvokeAsync()
     {
-        var item = await _siteContentRepository1.GetByIdAsync(1);
-        return View(item);
+        //var item = await _siteContentRepository1.GetByIdAsync(1);
+        return View();
     }
 }

@@ -1,11 +1,11 @@
 using Modicom.Repo.Contracts;
 using Microsoft.AspNetCore.Mvc;
 
-public class HeroViewComponent:ViewComponent
+public class PortfolioViewComponent:ViewComponent
 {
      private readonly ISiteContentRepository _siteContentRepository1;
 
-    public HeroViewComponent(ISiteContentRepository siteContentRepository)
+    public PortfolioViewComponent(ISiteContentRepository siteContentRepository)
     {
         
         _siteContentRepository1 = siteContentRepository;
@@ -13,7 +13,7 @@ public class HeroViewComponent:ViewComponent
 
     public async Task<IViewComponentResult> InvokeAsync()
      {
-      // var item =await  _siteContentRepository1.GetByIdAsync(1);item
-        return View();
+       var item =await  _siteContentRepository1.GetByIdAsync(1);
+        return View(item);
      }
 }

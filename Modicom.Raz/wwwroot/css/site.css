@@ -29,3 +29,17 @@ body {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
 }
+.toast {
+  min-width: 300px;
+  transition: all 0.5s ease;
+}
+
+.toast.hide {
+  opacity: 0;
+  transform: translateY(100%);
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}

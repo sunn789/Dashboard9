@@ -8,3 +8,43 @@
    @await Component.InvokeAsync(item.Name!) 
 } *@
 
+@if (TempData["ToastMessage"] != null)
+{
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="successToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header bg-success text-white">
+                <strong class="me-auto">Success!</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                @TempData["ToastMessage"]
+            </div>
+        </div>
+    </div>
+}
+    @await Component.InvokeAsync("Hero")
+    @await Component.InvokeAsync("Client")
+    @await Component.InvokeAsync("AboutUs")
+    @await Component.InvokeAsync("State")
+    @await Component.InvokeAsync("Services")
+    @await Component.InvokeAsync("AltServices")
+    @await Component.InvokeAsync("Features")
+    @await Component.InvokeAsync("Testimonials")
+    @await Component.InvokeAsync("Portfolio")
+    @await Component.InvokeAsync("Team")
+    @await Component.InvokeAsync("Pricing")
+    @await Component.InvokeAsync("ContactUs")
+
+
+    @section Scripts {
+    <script>
+        // Show toast on page load
+        document.addEventListener('DOMContentLoaded', function () {
+            var toastEl = document.getElementById('successToast');
+            if (toastEl) {
+                var toast = new bootstrap.Toast(toastEl);
+                toast.show();
+            }
+        });
+    </script>
+}

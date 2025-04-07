@@ -37,6 +37,7 @@ public class ContactUs
 
     [Display(Name = "Preferred Method of Contact")]
     public PreferredContactMethod? PreferredContactMethod { get; set; } // Nullable if not required
+    public string?  Subject { get; set; }
 
     [Display(Name = "How can we help you?")]
     public string? Message { get; set; }

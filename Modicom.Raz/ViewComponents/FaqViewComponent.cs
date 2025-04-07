@@ -1,11 +1,11 @@
 using Modicom.Repo.Contracts;
 using Microsoft.AspNetCore.Mvc;
 
-public class NavViewComponent:ViewComponent
+public class FaqViewComponent:ViewComponent
 {
      private readonly ISiteContentRepository _siteContentRepository1;
 
-    public NavViewComponent(ISiteContentRepository siteContentRepository)
+    public FaqViewComponent(ISiteContentRepository siteContentRepository)
     {
         
         _siteContentRepository1 = siteContentRepository;

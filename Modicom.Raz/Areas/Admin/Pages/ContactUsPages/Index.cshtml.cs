@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Modicom.Models;
 using Modicom.Models.Entities;
 
-namespace Modicom.Raz.Areas_Admin_Pages_ContactUs
+namespace Modicom.Raz.Areas_Admin_Pages_ContactUsPages
 {
     public class IndexModel : PageModel
     {
